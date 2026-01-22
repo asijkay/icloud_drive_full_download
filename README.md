@@ -1,65 +1,72 @@
-iCloud Drive Full Downloader (Python)
+# iCloud Drive Full Downloader (Python)
 
-This script downloads all files and folders from iCloud Drive, preserving the full nested folder structure (tested with deeply nested folders, 10+ levels).
+A Python script to download **all files and folders from iCloud Drive**, preserving the **original directory structure**, including **deeply nested folders (10+ levels)**.
 
-It is designed as a workaround when Finder and iCloud.com fail to download folders.
+This script is intended as a **workaround when Finder and iCloud.com fail** to download folders due to iCloud sync or backend issues.
 
-Features
+---
 
-✅ Downloads entire iCloud Drive
+## 🚀 Features
 
-✅ Preserves original folder names & structure
+- ✅ Downloads **entire iCloud Drive**
+- ✅ Preserves **original folder names & structure**
+- ✅ Supports **deeply nested folders**
+- ✅ **Resume support** (already-downloaded files are skipped)
+- ✅ Handles **large files** using streamed downloads
+- ✅ Works when Finder and iCloud Web UI are broken
 
-✅ Supports deeply nested folders
+---
 
-✅ Resume support (already downloaded files are skipped)
+## 📋 Requirements
 
-✅ Handles large files via streaming
+- Python **3.8 or newer**
+- macOS / Linux / Windows
+- An iCloud account with **Two-Factor Authentication (2FA)**
+- Sufficient local disk space to store iCloud Drive contents
 
-✅ Works even when Finder / iCloud web UI is broken
+---
 
-Requirements
+## 📦 Installation
 
-Python 3.8+
+Install the required dependency:
 
-macOS, Linux, or Windows
+```pip install pyicloud```
 
-An iCloud account with 2FA enabled
+## Configuration
 
-Sufficient local disk space
+Edit the script and update the following variables:
 
-Installation
-
-Install the required library:
-
-pip install pyicloud
-
-Configuration
-
-Edit the script and set your credentials:
-
+```python
 APPLE_ID = "your_icloud_email"
 PASSWORD = "your_icloud_password"
 DOWNLOAD_ROOT = "iCloud_Download"
+```
 
+### Security Warning
 
-⚠️ Security note
-This uses a non-official library.
-Use at your own risk and avoid corporate / sensitive accounts.
+This script uses a **non-official, reverse-engineered API**.  
+Use it at your own risk.  
+Avoid using sensitive, work, or corporate Apple IDs.
 
-Usage
+---
 
-Run the script:
+## Usage
 
+Run the script from your terminal:
+
+```bash
 python icloud_drive_full_download.py
+```
 
+If Two-Factor Authentication (2FA) is enabled, you will be prompted to enter the verification code sent to your trusted device.
 
-If Two-Factor Authentication is enabled, you will be prompted to enter the verification code.
+---
 
-Output Structure
+## Output Structure
 
-The downloaded files will appear in:
+Downloaded files will be saved locally using the same structure as iCloud Drive:
 
+```
 iCloud_Download/
 ├── FolderA/
 │   ├── SubFolder1/
@@ -67,58 +74,72 @@ iCloud_Download/
 │   │       └── file.ext
 ├── FolderB/
 └── file.pdf
+```
 
+The directory hierarchy exactly matches your iCloud Drive, including deeply nested folders.
 
-The structure matches iCloud Drive exactly.
+---
 
-Resume Support
+## Resume Support
 
-If the script:
+If the script is interrupted due to:
 
-crashes
+- network failure  
+- system sleep or reboot  
+- manual termination  
+- script crash  
 
-is interrupted
+Simply run the script again:
 
-loses internet connection
-
-Simply run it again:
-
+```bash
 python icloud_drive_full_download.py
+```
 
+Already downloaded files will be skipped automatically, and the script will continue from where it stopped.
 
-Existing files will be skipped automatically, and the download will continue.
+---
 
-Notes & Limitations
+## Notes and Limitations
 
-This script does NOT download:
+- This script does **not** download:
+  - iCloud Photos
+  - iPhone or iPad backups
+  - iCloud Mail, Contacts, or Calendars
+- Accounts with many small files may take a long time to complete
+- Apple may temporarily apply rate limiting or throttling
 
-iCloud Photos
+---
 
-iPhone backups
+## Troubleshooting
 
-iCloud Mail or Contacts
+### Response object has no attribute read
 
-Large accounts with many small files may take a long time
+This error occurs when treating a Response object as a file object.  
+The script avoids this issue by using streamed downloads via iter_content.
 
-Apple may temporarily throttle requests
+---
 
-Troubleshooting
-'Response' object has no attribute 'read'
+### Folder downloads fail in Finder or iCloud.com
 
-This is already handled in the script by using streamed downloads (iter_content).
+This is commonly caused by an iCloud backend synchronization issue.  
+The script bypasses Finder’s sync engine and often succeeds when the Apple UI fails.
 
-Folder appears stuck or empty
+---
 
-This is usually an Apple iCloud backend issue
+## Disclaimer
 
-The script bypasses Finder sync and often succeeds where the UI fails
+This project uses reverse-engineered iCloud APIs and is **not affiliated with or endorsed by Apple Inc.**
 
-Disclaimer
+Use responsibly and entirely at your own risk.
 
-This project uses reverse-engineered APIs and is not affiliated with Apple.
+---
 
-Use responsibly.
-
-License
+## License
 
 MIT License
+
+---
+
+## Acknowledgements
+
+- pyicloud — reverse-engineered iCloud API access
